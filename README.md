@@ -1,289 +1,65 @@
-# 🎥 Interactive Camera Filter with Hand Gesture
+# Retrolens - Hand Tracking Filter & Portal
 
-Aplikasi filter kamera interaktif menggunakan **Hand Tracking** dengan **MediaPipe** dan **OpenCV**.
+Aplikasi filter kamera interaktif menggunakan gesture tangan (hand tracking) dengan MediaPipe dan OpenCV. Anda dapat membuat "portal" dengan jari Anda yang akan menerapkan berbagai filter menarik (Mono, Dual-Tone, Pixelate, Invert, Sepia, Blur, Thermal, Sketch, Glitch, Neon, Galaxy).
 
-Aplikasi ini memungkinkan pengguna membuat sebuah **"Portal" menggunakan gesture tangan** di depan webcam. Area di dalam portal akan menampilkan berbagai efek filter secara real-time.
+## Persyaratan Sistem
+- Python 3.7 atau lebih baru
+- Webcam
 
-## ✨ Fitur
+## Cara Install dan Menjalankan
 
-Tersedia berbagai filter menarik yang dapat digunakan:
-
-* ⚫ **Mono**
-* 🎨 **Dual-Tone**
-* 🟪 **Pixelate**
-* 🔄 **Invert**
-* 🟤 **Sepia**
-* 🌫️ **Blur**
-* 🌡️ **Thermal**
-* ✏️ **Sketch**
-* ⚡ **Glitch**
-* 💡 **Neon**
-* 🌌 **Galaxy**
-
-## 🖥️ Persyaratan Sistem
-
-Sebelum menjalankan aplikasi, pastikan komputer memenuhi persyaratan berikut:
-
-* **Python 3.7 atau lebih baru**
-* **Webcam / Kamera**
-* Sistem operasi Windows, macOS, atau Linux
-* Pencahayaan ruangan yang cukup
-
----
-
-# 🚀 Cara Install dan Menjalankan
-
-## 1. Clone Repository
-
-Clone repository GitHub ke komputer Anda:
-
+### 1. Clone Repository
+Pertama, clone repository ini ke komputer Anda dan masuk ke foldernya (ganti URL dengan link repository GitHub Anda):
 ```bash
 git clone <URL_GITHUB_ANDA>
-```
-
-Masuk ke folder repository:
-
-```bash
 cd <NAMA_FOLDER_REPO>
 ```
 
-> Ganti `<URL_GITHUB_ANDA>` dengan URL repository GitHub Anda dan `<NAMA_FOLDER_REPO>` dengan nama folder project.
-
----
-
-## 2. Buat Virtual Environment
-
-Virtual environment **opsional tetapi sangat disarankan** agar library project tidak bentrok dengan project Python lainnya.
-
-### Windows
-
+### 2. Buat Virtual Environment (Opsional tapi Sangat Disarankan)
+Gunakan virtual environment agar dependencies (library) tidak bentrok dengan project Python lainnya di komputer Anda.
 ```bash
+# Untuk Windows
 python -m venv venv
-```
-
-Aktifkan virtual environment:
-
-```bash
 venv\Scripts\activate
-```
 
-Jika berhasil, biasanya akan muncul tulisan `(venv)` di awal terminal.
-
-### macOS / Linux
-
-```bash
+# Untuk macOS / Linux
 python3 -m venv venv
-```
-
-Aktifkan:
-
-```bash
 source venv/bin/activate
 ```
 
----
-
-## 3. Install Dependencies
-
-Jika repository sudah memiliki file `requirements.txt`, jalankan:
-
+### 3. Install Dependencies
+Install semua library Python yang dibutuhkan dengan menjalankan perintah berikut:
 ```bash
 pip install -r requirements.txt
 ```
 
-### Install Manual
-
-Jika belum tersedia `requirements.txt`, install library berikut:
-
+Atau jika Anda ingin menginstallnya secara manual satu per satu:
 ```bash
 pip install opencv-python mediapipe numpy
 ```
 
-Library yang digunakan:
+### 4. Pastikan Model MediaPipe Tersedia
+Aplikasi ini membutuhkan dua file model dari MediaPipe yang seharusnya sudah ada di dalam repository ini:
+1. `hand_landmarker.task` (Untuk mendeteksi titik pada tangan)
+2. `selfie_segmenter.tflite` (Untuk filter Galaxy / memisahkan background)
 
-| Library         | Fungsi                                |
-| --------------- | ------------------------------------- |
-| `opencv-python` | Mengakses webcam dan memproses gambar |
-| `mediapipe`     | Hand Tracking / deteksi tangan        |
-| `numpy`         | Pengolahan data dan gambar            |
+Jika file tersebut belum ada, pastikan untuk meletakkannya di dalam folder yang sama dengan file `main.py`.
 
----
-
-## 4. Pastikan Model MediaPipe Tersedia
-
-Aplikasi membutuhkan beberapa file model MediaPipe.
-
-Pastikan file berikut tersedia di dalam project:
-
-```text
-hand_landmarker.task
-selfie_segmenter.tflite
-```
-
-Struktur folder yang disarankan:
-
-```text
-project/
-│
-├── main.py
-├── requirements.txt
-├── hand_landmarker.task
-├── selfie_segmenter.tflite
-└── venv/
-```
-
-### Fungsi Model
-
-**`hand_landmarker.task`**
-
-Digunakan untuk mendeteksi titik-titik atau **landmark pada tangan**.
-
-**`selfie_segmenter.tflite`**
-
-Digunakan untuk proses **segmentasi background**, terutama pada filter **Galaxy**.
-
-> Pastikan kedua file model berada pada lokasi yang sesuai dengan path yang digunakan di dalam kode `main.py`.
-
----
-
-# ▶️ 5. Menjalankan Aplikasi
-
-Setelah semua dependency dan model tersedia, jalankan:
-
+### 5. Jalankan Aplikasi
+Jalankan script utamanya dengan mengetik:
 ```bash
 python main.py
 ```
+*(Gunakan `python3 main.py` jika Anda menggunakan macOS/Linux dan tidak menggunakan virtual environment)*
 
-Untuk macOS/Linux:
+## Cara Penggunaan Fitur
 
-```bash
-python3 main.py
-```
-
-Jika berhasil, webcam akan terbuka dan aplikasi mulai mendeteksi gesture tangan secara real-time.
-
----
-
-# 🖐️ Cara Menggunakan
-
-## Membuka Portal
-
-Gunakan **dua tangan** di depan kamera.
-
-Gunakan:
-
-* 👍 Jempol tangan kiri
-* ☝️ Telunjuk tangan kiri
-* 👍 Jempol tangan kanan
-* ☝️ Telunjuk tangan kanan
-
-Aplikasi akan mendeteksi keempat titik tersebut dan membentuk sebuah **portal berbentuk persegi empat**.
-
-Filter akan diterapkan pada area **di dalam portal**.
+- **Membuka Portal:** Gunakan ujung telunjuk dan jempol dari **kedua** tangan Anda di depan kamera (total 4 jari). Sebuah portal berbentuk persegi empat akan terbentuk di antara keempat jari Anda, dan efek filter akan muncul di dalamnya.
+- **Mengganti Filter:** Ada beberapa cara untuk mengganti filter yang sedang aktif:
+  - Sentuhkan/dekatkan ujung jempol dan jari kelingking Anda.
+  - Atau, dekatkan ujung telunjuk dari kedua tangan Anda.
+- **Menutup Aplikasi:** Pastikan jendela kamera/Retrolens sedang aktif (diklik), kemudian tekan tombol **`q`** pada keyboard Anda untuk keluar dari aplikasi.
 
 ---
-
-## 🔄 Mengganti Filter
-
-Filter dapat diganti menggunakan gesture tangan.
-
-### Cara 1 — Jempol dan Kelingking
-
-Dekatkan atau sentuhkan:
-
-**ujung jempol → ujung jari kelingking**
-
-Ketika gesture terdeteksi, filter akan berpindah ke filter berikutnya.
-
-### Cara 2 — Dua Telunjuk
-
-Dekatkan:
-
-**ujung telunjuk tangan kiri → ujung telunjuk tangan kanan**
-
-Gesture tersebut juga dapat digunakan untuk mengganti filter.
-
----
-
-# 🎨 Daftar Filter
-
-Aplikasi menyediakan beberapa efek visual:
-
-| Filter        | Deskripsi                           |
-| ------------- | ----------------------------------- |
-| **Mono**      | Efek hitam putih                    |
-| **Dual-Tone** | Efek dua warna                      |
-| **Pixelate**  | Membuat gambar menjadi piksel       |
-| **Invert**    | Membalik warna gambar               |
-| **Sepia**     | Efek foto klasik kecokelatan        |
-| **Blur**      | Memberikan efek blur                |
-| **Thermal**   | Efek seperti kamera thermal         |
-| **Sketch**    | Mengubah gambar menjadi efek sketsa |
-| **Glitch**    | Efek digital glitch                 |
-| **Neon**      | Efek garis bercahaya                |
-| **Galaxy**    | Efek luar angkasa / galaksi         |
-
----
-
-# ❌ Menutup Aplikasi
-
-Untuk keluar dari aplikasi:
-
-1. Pastikan jendela kamera **aktif/diklik**.
-2. Tekan tombol:
-
-```text
-Q
-```
-
-Aplikasi kemudian akan berhenti dan jendela kamera ditutup.
-
----
-
-# 💡 Tips Penggunaan
-
-Agar Hand Tracking dapat bekerja dengan optimal:
-
-* Gunakan ruangan dengan **pencahayaan yang cukup**.
-* Pastikan tangan terlihat jelas oleh webcam.
-* Hindari background yang terlalu ramai.
-* Jangan terlalu dekat atau terlalu jauh dari kamera.
-* Pastikan jari tidak tertutup benda lain.
-* Gunakan webcam dengan posisi yang stabil.
-
----
-
-# 📁 Struktur Project
-
-Contoh struktur project:
-
-```text
-hand-gesture-filter/
-│
-├── main.py
-├── requirements.txt
-├── hand_landmarker.task
-├── selfie_segmenter.tflite
-├── README.md
-└── venv/
-```
-
----
-
-# 🛠️ Teknologi yang Digunakan
-
-Project ini dibuat menggunakan:
-
-* **Python**
-* **OpenCV**
-* **MediaPipe**
-* **NumPy**
-* **Webcam**
-
----
-
-# 📜 Lisensi
-
-Project ini dibuat untuk **pembelajaran, eksperimen, dan pengembangan aplikasi computer vision berbasis gesture tangan**.
-
-Silakan dikembangkan dan dimodifikasi sesuai kebutuhan.
+**Catatan:** Pastikan ruangan memiliki pencahayaan yang cukup agar deteksi tangan dari kamera dapat bekerja dengan optimal.
+  
